@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 
 /* version1 */
 int ilog2_1(int i)
@@ -32,6 +33,12 @@ static size_t ilog2_2(size_t i)
         i >>= 1;
     }
     return result;
+}
+
+/* version3 */
+int ilog32(uint32_t v)
+{
+    return (31 - __builtin_clz(v | 1));
 }
 
 int main(void)
