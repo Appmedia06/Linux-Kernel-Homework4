@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <limits.h>
+
+#define MAX_SIZE 10000
 
 int totalHammingDistance(int* nums, int numsSize)
 {
@@ -11,7 +16,11 @@ int totalHammingDistance(int* nums, int numsSize)
 
 int main(void)
 {
-    int nums[3] = {4, 14, 4};
-    printf("Hamming Distance of [%d, %d, %d] is %d\n", nums[0], nums[1], nums[2], totalHammingDistance(nums, 3)); 
+    int nums[MAX_SIZE];
+    srand(time(NULL));
+    for(int i = 0; i < MAX_SIZE; i++) {
+        nums[i] = rand() % INT_MAX;
+    }
+    printf("Hamming Distance is %d\n", totalHammingDistance(nums, MAX_SIZE)); 
     return 0;
 }
