@@ -18,14 +18,20 @@ unsigned popcount(unsigned v)
 
 int mod3(unsigned n)
 {
-    n = popcount(n ^ 0xAAAAAAAA) + 23;
-    n = popcount(n ^ 0x2A) - 3;
-    return n + ((n >> 31) & 3);
+    int diff = popcount(n ^ 0xAAAAAAAA) - 16;
+
+    int result = diff % 3;
+    if (result < 0) {
+        result += 3;
+    }
+
+    return result;
 }
 
 int main(void)
 {
-    int n = 10;
-    printf("mod(%d) = %d\n", n, mod3(n));
+    for(int i = 0; i < 50; i++) {
+        printf("mod(%d) = %d\n", i, mod3(i));
+    }
     return 0;
 }
