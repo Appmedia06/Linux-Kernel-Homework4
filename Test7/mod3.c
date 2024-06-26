@@ -20,12 +20,7 @@ int mod3(unsigned n)
 {
     int diff = popcount(n ^ 0xAAAAAAAA) - 16;
 
-    int result = diff % 3;
-    if (result < 0) {
-        result += 3;
-    }
-
-    return result;
+    return (diff % 3 + 3) % 3;
 }
 
 int main(void)
