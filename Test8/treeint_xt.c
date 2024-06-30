@@ -73,3 +73,14 @@ int treeint_xt_remove(void *ctx, int a)
     struct xt_tree *tree = (struct xt_tree *) ctx;
     return xt_remove(tree, (void *) &a);
 }
+
+short treeint_xt_getHeight(void *ctx, int a)
+{
+    struct xt_tree *tree = (struct xt_tree *) ctx;
+    if (tree->root) {
+        return tree->root->hint;
+    } 
+    else {
+        return 0;
+    }
+}

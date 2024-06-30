@@ -13,6 +13,7 @@ struct treeint_ops {
     int (*insert)(void *, int);
     void *(*find)(void *, int);
     int (*remove)(void *, int);
+    short (*getHeight)(void *, int);
 };
 
 static struct treeint_ops *ops;
@@ -23,6 +24,7 @@ static struct treeint_ops xt_ops = {
     .insert = treeint_xt_insert,
     .find = treeint_xt_find,
     .remove = treeint_xt_remove,
+    .getHeight = treeint_xt_getHeight,
 };
 
 #define rand_key(sz) rand() % ((sz) -1)
@@ -69,26 +71,29 @@ int main(int argc, char *argv[])
     long long insert_time = 0;
     for (size_t i = 0; i < tree_size; ++i) {
         int v = seed ? rand_key(tree_size) : i;
-        insert_time = bench(ops->insert(ctx, v));
-        printf("%lld,", insert_time);
+        insert_time += bench(ops->insert(ctx, v));
     }
-    printf("\n");
+    printf("Average insertion time of XTree: %lf\n", (double)insert_time / tree_size);
+
+    int v = rand_key(tree_size);
+    short height = ops->getHeight(ctx, v);
 
     long long find_time = 0;
     for (size_t i = 0; i < tree_size; ++i) {
         int v = seed ? rand_key(tree_size) : i;
-        find_time = bench(ops->find(ctx, v));
-        printf("%lld, ", find_time);
+        find_time += bench(ops->find(ctx, v));
     }
-    printf("\n");
+    printf("Average find time of XTree: %lf\n", (double)find_time / tree_size); 
 
     /* Removing */
+    long long remove_time = 0;
     for (size_t i = 0; i < tree_size; ++i) {
         int v = seed ? rand_key(tree_size) : i;
-        long long remove_time = bench(ops->remove(ctx, v));
-        printf("%lld, ", remove_time);
+        remove_time += bench(ops->remove(ctx, v));
     }
-    printf("\n");
+    printf("Average remove time of XTree: %lf\n", (double)remove_time / tree_size);
+    
+    printf("The height of XTree: %d\n", height);
 
     ops->destroy(ctx);
 
