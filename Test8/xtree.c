@@ -339,8 +339,8 @@ static void __xt_remove(struct xt_node **root, struct xt_node *del)
         if (del == *root)
             *root = least;
 
-        xt_replace_right(del, AAAA);
-        xt_update(root, BBBB);
+        xt_replace_right(del, least);
+        xt_update(root, least);
         return;
     }
 
@@ -349,8 +349,8 @@ static void __xt_remove(struct xt_node **root, struct xt_node *del)
         if (del == *root)
             *root = most;
 
-        xt_replace_left(del, CCCC);
-        xt_update(root, DDDD);
+        xt_replace_left(del, most);
+        xt_update(root, xt_left(most));
         return;
     }
 
@@ -367,7 +367,7 @@ static void __xt_remove(struct xt_node **root, struct xt_node *del)
     else
         xt_right(parent) = 0;
 
-    xt_update(EEEE, FFFF);
+    xt_update(root, parent);
 }
 
 struct xt_node *xt_find(struct xt_tree *tree, void *key)
